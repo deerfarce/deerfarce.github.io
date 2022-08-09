@@ -41,7 +41,7 @@
             "#nndSettingsModal .subfooter .ver {padding-left: 10px;border-left: 1px solid #4e4e4e}"
     }).appendTo('head');
     
-    setFontSizeCSS(16);
+    setFontSizeCSS(32);
     
     console.debug('NND Chat: CSS added to page header');
     //on the other hand, we don't want this persistent stuff to run more than once..
@@ -56,14 +56,14 @@
         'MAX':100, //maximum amount of messages allowed on screen before the oldest messages are removed
         'offsetType':0, //0: position based on fontsize and player height; 1: random %
         'fromRight':true, //move messages from right? if false, moves from left instead
-        'fontSize':16, //font size of messages in pixels
+        'fontSize':32, //font size of messages in pixels
         '_fn': {
             'init':()=>{
               nnd['enabled'] = true;
               nnd['MAX'] = 100;
               nnd['offsetType'] = 0;
               nnd['fromRight'] = true;
-              nnd['fontSize'] = 16;
+              nnd['fontSize'] = 32;
               nnd._fn.updateModal();
               nnd._fn.save()
             },
@@ -151,7 +151,7 @@
     //saveFromModal: sets the current window's nnd object properties based on the options selected in the modal window, and calls _fn.save
 
     //create modal element, insert before #pmbar
-    $('<div class="fade modal"id=nndSettingsModal aria-hidden=true role=dialog style=display:none tabindex=-1><div class=modal-dialog><div class=modal-content><div class=modal-header><button class=close data-dismiss=modal aria-hidden=true>×</button><h4>NND Chat Settings: <span id=modal-nnd-roomname>'+CHANNEL.name+'</span></h4></div><div class=modal-body id=nndSettingsWrap><div class=modal-option><div class=checkbox><label for=nnd-enable><input id=nnd-enable type=checkbox> Enable NND Chat</label><div class=modal-caption>Enable Nico Nico Douga-style chat messages. Places chat messages on the currently playing video and scrolls them to the opposite side.</div></div></div><div class=modal-option><div class=modal-subheader>Message Offset</div><div class=modal-caption>Determines how the position of the chat message is generated.</div><div class=radio><label for=nnd-offsettype-0><input id=nnd-offsettype-0 type=radio name=offsettype> Random position based on font size of message and video player height</label><br><label for=nnd-offsettype-1><input id=nnd-offsettype-1 type=radio name=offsettype> Random percent from top of video player</label></div></div><div class=modal-option><div class=modal-subheader>Message Direction</div><div class=modal-caption>Determines where new messages will start and end.</div><div class=radio><label for=nnd-fromright-true><input id=nnd-fromright-true type=radio name=fromright> from Right to Left</label><br><label for=nnd-fromright-false><input id=nnd-fromright-false type=radio name=fromright> from Left to Right</label></div></div><div class=modal-option><div class=modal-subheader>Maximum Messages</div><div class=modal-caption>Maximum amount of messages allowed on screen at once. New messages will be ignored if this many are on screen. A large amount of messages may cause lag. Default 100.</div><input id=nnd-maxmsgs type=text class=form-control placeholder=100></div><div class="modal-option"><div class="modal-subheader">Font Size</div><div class="modal-caption">Font size of all NND messages in pixels. Default 16.</div><input id="nnd-fontsize" type="text" class="form-control" placeholder="16"></div></div><div class=modal-footer><div class=left-warning>Settings are not applied until you click Save.</div><button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.saveFromModal()>Save</button> <button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.updateModal()>Close</button><div class="subfooter"><a class="by" href="https://github.com/deerfarce/cytube-nnd-chat" target="_blank" rel="noreferrer noopener">github</a><span class="ver">version '+nnd._ver+'</span></div></div></div></div></div>').insertBefore('#pmbar');
+    $('<div class="fade modal"id=nndSettingsModal aria-hidden=true role=dialog style=display:none tabindex=-1><div class=modal-dialog><div class=modal-content><div class=modal-header><button class=close data-dismiss=modal aria-hidden=true>×</button><h4>NND Chat Settings: <span id=modal-nnd-roomname>'+CHANNEL.name+'</span></h4></div><div class=modal-body id=nndSettingsWrap><div class=modal-option><div class=checkbox><label for=nnd-enable><input id=nnd-enable type=checkbox> Enable NND Chat</label><div class=modal-caption>Enable Nico Nico Douga-style chat messages. Places chat messages on the currently playing video and scrolls them to the opposite side.</div></div></div><div class=modal-option><div class=modal-subheader>Message Offset</div><div class=modal-caption>Determines how the position of the chat message is generated.</div><div class=radio><label for=nnd-offsettype-0><input id=nnd-offsettype-0 type=radio name=offsettype> Random position based on font size of message and video player height</label><br><label for=nnd-offsettype-1><input id=nnd-offsettype-1 type=radio name=offsettype> Random percent from top of video player</label></div></div><div class=modal-option><div class=modal-subheader>Message Direction</div><div class=modal-caption>Determines where new messages will start and end.</div><div class=radio><label for=nnd-fromright-true><input id=nnd-fromright-true type=radio name=fromright> from Right to Left</label><br><label for=nnd-fromright-false><input id=nnd-fromright-false type=radio name=fromright> from Left to Right</label></div></div><div class=modal-option><div class=modal-subheader>Maximum Messages</div><div class=modal-caption>Maximum amount of messages allowed on screen at once. New messages will be ignored if this many are on screen. A large amount of messages may cause lag. Default 100.</div><input id=nnd-maxmsgs type=text class=form-control placeholder=100></div><div class="modal-option"><div class="modal-subheader">Font Size</div><div class="modal-caption">Font size of all NND messages in pixels. Default 32.</div><input id="nnd-fontsize" type="text" class="form-control" placeholder="32"></div></div><div class=modal-footer><div class=left-warning>Settings are not applied until you click Save.</div><button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.saveFromModal()>Save</button> <button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.updateModal()>Close</button><div class="subfooter"><a class="by" href="https://github.com/deerfarce/cytube-nnd-chat" target="_blank" rel="noreferrer noopener">github</a><span class="ver">version '+nnd._ver+'</span></div></div></div></div></div>').insertBefore('#pmbar');
 
     //load the user's options then update the modal element
     nnd._fn.load();
@@ -160,7 +160,7 @@
     //create the button in #leftcontrols or in the navbar. toggles the NND Chat modal window when clicked
     if ($("#toggleNND").length <= 0) {
       if (window.cytubeEnhanced) {
-        $('<li/>').append($('<a/>',{href:'#',id:'toggleNND',text:'NND settings',click:()=>$('#nndSettingsModal').modal()})).insertAfter($("#" + window.cytubeEnhanced.prefix + "ui").parent());
+        $('<li/>').append($('<a/>',{href:'#',id:'toggleNND',text:'NND settings',click:(t)=>{t.preventDefault();t.stopPropagation();$('#nndSettingsModal').modal();}})).insertAfter($("#" + window.cytubeEnhanced.prefix + "ui").parent());
       } else {
         $('#leftcontrols').append($('<button/>',{id:'toggleNND','class':'btn btn-default btn-sm',html:'<span class="glyphicon glyphicon-cog"></span> NND Chat Settings',click:()=>$('#nndSettingsModal').modal()}));
       }
