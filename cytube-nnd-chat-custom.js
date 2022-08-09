@@ -174,7 +174,7 @@ function addScrollingMessage(message, extraClass) {
         if (message !== null && typeof message === "string" && message.length > 0 && !(/^\$/.test(message))) {
             var topOffset = "0px";
             var frm = 'right';
-            if (message.length > 240) message = message.substring(0,240);
+            //if (message.length > 240) message = message.substring(0,240);
             if (!opts.fromRight) frm = 'left';
             while ($('.videoText').length >= opts.MAX && opts.MAX >= 1) $('.videoText').eq(0).remove();
             var fontSize = Math.random() * (48.0 - 24.0) + 24.0;
@@ -186,7 +186,7 @@ function addScrollingMessage(message, extraClass) {
                     window.nnd.offsetType = 0;
                 }
             }
-            var $txt = $('<div/>', {'class': 'videoText '+extraClass,style: 'visibility: hidden; top:'+topOffset+'; font-size:'+fontSize+'px'}).append(message.replaceAll(/\<img (?:.*?)src=[\"\'](.+?)[\"\'](?:.*?)\>/gi, '<img src="$1">'););
+            var $txt = $('<div/>', {'class': 'videoText '+extraClass,style: 'visibility: hidden; top:'+topOffset+'; font-size:'+fontSize+'px'}).append(message.replaceAll(/\<img (?:.*?)src=[\"\'](.+?)[\"\'](?:.*?)\>/gi, '<img src="$1">'));
             $('.videochatContainer').append($txt);
             $txt.css(frm, (0 - $txt.width())+'px');
             $txt.addClass('moving');
