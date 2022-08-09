@@ -1,6 +1,6 @@
 /*
-- NND-style Chat script for Cytu.be
-- written by biggles- (github.com/deerfarce)
+- NND Chat script for cytu.be
+- https://github.com/deerfarce/cytube-nnd-chat
 - version 1.022-custom
 - custom: enabled by default
 - (still in testing, some things will NOT work as they should)
@@ -197,7 +197,7 @@
       }
     });
     
-    console.debug('LOADED: NND-style Chat script for Cytu.be written by biggles-. Version '+nnd._ver);
+    console.debug('LOADED: NND chat script for cytu.be [https://github.com/deerfarce/cytube-nnd-chat]. Version '+nnd._ver);
 
 })();
 
