@@ -20,7 +20,7 @@
         text:".videoText {color: white;font-size: 2em;position: absolute;z-index: 1;cursor: default;white-space:nowrap;opacity:0.7;font-family: 'Meiryo', sans-serif;letter-spacing: 4px;user-select: none;text-shadow: 0 -1px #000, 1px 0 #000, 0 1px #000, -1px 0 #000;pointer-events: none}"+
             ".videoText.moving {transition: right 7.5s linear, left 7.5s linear}"+
             ".videoText.greentext {color: #789922}"+
-            ".videoText img {max-height: 64px;max-width: 64px}"+
+            ".videoText img, .videochatContainer .channel-emote {max-height: 64px;max-width: 64px;display: inline-block!important;transition: none!important;}"+
             ".videoText.shout {color: #f00}"+
             ".modal .left-warning {float: left;padding: 10px 12px;font-size: 13px;color: #ff8f8f}"+
             ".modal .modal-caption {font-size: 13px;text-indent: 35px;color: #8f9cad}"+
@@ -186,7 +186,7 @@ function addScrollingMessage(message, extraClass) {
                     window.nnd.offsetType = 0;
                 }
             }
-            var $txt = $('<div/>', {'class': 'videoText '+extraClass,style: 'visibility: hidden; top:'+topOffset+'; font-size:'+fontSize+'px'}).append(message.replaceAll(/\<img (?:.*?)src=[\"\'](.+?)[\"\'](?:.*?)\>/gi, '<img src="$1">'));
+            var $txt = $('<div/>', {'class': 'videoText '+extraClass,style: 'visibility: hidden; top:'+topOffset+'; font-size:'+fontSize+'px'}).append(message);
             $('.videochatContainer').append($txt);
             $txt.css(frm, (0 - $txt.width())+'px');
             $txt.addClass('moving');
