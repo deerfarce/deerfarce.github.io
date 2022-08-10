@@ -1,7 +1,7 @@
 /*
 - NND Chat script for cytu.be
 - https://github.com/deerfarce/cytube-nnd-chat
-- version 1.022-custom
+- version 1.023-custom
 - custom: enabled by default
 - (still in testing, some things will NOT work as they should)
 */
@@ -29,7 +29,7 @@
         text:".videoText {color: white;position: absolute;z-index: 1;cursor: default;white-space:nowrap;opacity:0.7;font-family: 'Meiryo', sans-serif;letter-spacing: 0.063em;user-select: none;text-shadow: 0 -0.063em #000, 0.063em 0 #000, 0 0.063em #000, -0.063em 0 #000;pointer-events: none}"+
             ".videoText.moving {transition: right 7.5s linear, left 7.5s linear}"+
             ".videoText.greentext {color: #789922}"+
-            ".videoText img, .videochatContainer .channel-emote {vertical-align: middle!important;display: inline-block!important;transition: none!important;}"+
+            ".videoText img, .videochatContainer .channel-emote {box-shadow: none!important; vertical-align: middle!important;display: inline-block!important;transition: none!important;}"+
             ".videoText.shout {color: #f00}"+
             ".modal .left-warning {float: left;padding: 10px 12px;font-size: 13px;color: #ff8f8f}"+
             ".modal .modal-caption {font-size: 13px;text-indent: 35px;color: #8f9cad}"+
@@ -140,7 +140,7 @@
               nnd._fn.save();
             }
         },
-        '_ver':'1.022-custom'
+        '_ver':'1.023-custom'
     };
 
     //init: sets the window's nnd options to their defaults, then calls _fn.updateModal and _fn.save
@@ -196,6 +196,13 @@
         $('.videoText').remove();
       }
     });
+    
+    let staleMessages = $('.videoText');
+    if (staleMessages.length > 0) {
+      setTimeout(function() {
+        staleMessages.each(function(i,e) {e.remove()});
+      }, 7500);
+    }
     
     console.debug('LOADED: NND chat script for cytu.be [https://github.com/deerfarce/cytube-nnd-chat]. Version '+nnd._ver);
 
