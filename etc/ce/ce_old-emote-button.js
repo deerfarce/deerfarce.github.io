@@ -1,3 +1,4 @@
+//for use with cytubeEnhanced/billtube
 (function() {
     if ($("#smiles-btn-legacy").length <= 0) {
         let oldEmoteBtn = $("<button/>", {
