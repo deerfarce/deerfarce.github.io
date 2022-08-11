@@ -197,12 +197,14 @@
       }
     });
     
-    let staleMessages = $('.videoText');
-    if (staleMessages.length > 0) {
-      setTimeout(function() {
-        staleMessages.each(function(i,e) {e.remove()});
-      }, 7500);
-    }
+    setTimeout(function() {
+      let staleMessages = $('.videoText');
+      if (staleMessages.length > 0) {
+        setTimeout(function() {
+          staleMessages.each(function(i,e) {e.remove()});
+        }, 7500);
+      }
+    }, 2500);
     
     console.debug('LOADED: NND chat script for cytu.be [https://github.com/deerfarce/cytube-nnd-chat]. Version '+nnd._ver);
 
