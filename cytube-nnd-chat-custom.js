@@ -2,7 +2,7 @@
 - Niconico Chat script for cytu.be
 - https://github.com/deerfarce/cytube-nnd-chat
 - version 1.035-custom
-- custom: offsetType is flipped
+- custom: offsetType is flipped, different defaults, middle image align
 - (still in testing, some things will NOT work as they should)
 */
 
@@ -10,7 +10,7 @@
 
     let _defaultEnabled = true,
         _defaultFontSize = 32,
-        _defaultImageHeight = 48,
+        _defaultImageHeight = 128,
         _scrollDuration = 7;
 
     let setFontSizeCSS = function(fontsize, imageheight) {
@@ -35,7 +35,7 @@
         text:".videoText {color: white;position: absolute;z-index: 1;cursor: default;white-space:nowrap;font-family: 'Meiryo', sans-serif;letter-spacing: 0.063em;user-select: none;text-shadow: 0 -0.063em #000, 0.063em 0 #000, 0 0.063em #000, -0.063em 0 #000;pointer-events: none}"+
             ".videoText.moving {transition: right "+_scrollDuration+"s linear, left "+_scrollDuration+"s linear}"+
             ".videoText.greentext {color: #789922}"+
-            ".videoText img, .videochatContainer .channel-emote {box-shadow: none!important; vertical-align: top!important;display: inline-block!important;transition: none!important;}"+
+            ".videoText img, .videochatContainer .channel-emote {box-shadow: none!important; vertical-align: middle!important;display: inline-block!important;transition: none!important;}"+
             ".videoText.shout {color: #f00}"+
             ".modal .left-warning {float: left;padding: 10px 12px;font-size: 13px;color: #ff8f8f}"+
             ".modal .modal-caption {font-size: 13px;text-indent: 35px;color: #8f9cad}"+
