@@ -254,7 +254,7 @@
               el.classList.add('moving');
               requestAnimationFrame(function() {
                 el.style.visibility = 'visible';
-                el.style[frm] = playerWidth + 'px';
+                el.style[frm] = player.clientWidth + 'px';
               });
             },
             'addScrollingMessage':(message, extraClass)=>{
