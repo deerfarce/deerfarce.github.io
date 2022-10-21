@@ -1,7 +1,7 @@
 /*
 - Niconico Chat script for cytu.be
 - original repo: https://github.com/deerfarce/cytube-nnd-chat
-- version 1.037
+- version 1.0371
 - (still in testing, some things will NOT work as they should)
 */
 
@@ -248,13 +248,13 @@
               }
 
               nnd._msgCount++;
-              el.style.top = (nnd.fontSize * lane) + 'px';
-              el.classList.add('nn-lane-' + lane);
-              el.style[frm] = (0 - thisWidth) + 'px';
-              el.classList.add('moving');
+              $(el).css('top', (nnd.fontSize * lane) + 'px');
+              $(el).addClass('nn-lane-' + lane);
+              $(el).css(frm, (0 - thisWidth) + 'px');
+              $(el).addClass('moving');
               requestAnimationFrame(function() {
-                el.style.visibility = 'visible';
-                el.style[frm] = player.clientWidth + 'px';
+                $(el).css('visibility', 'visible');
+                $(el).css(frm, $(player).width()+'px');
               });
             },
             'addScrollingMessage':(message, extraClass)=>{
@@ -334,7 +334,7 @@
             }
         },
         '_msgCount': 0,
-        '_ver':'1.037'
+        '_ver':'1.0371'
     };
 
     //init: sets the window's nnd options to their defaults, then calls _fn.updateModal and _fn.save
