@@ -1,7 +1,7 @@
 /*
 - Niconico Chat script for cytu.be
 - original repo: https://github.com/deerfarce/cytube-nnd-chat
-- version 1.0371
+- version 1.0372
 - (still in testing, some things will NOT work as they should)
 */
 
@@ -74,9 +74,10 @@
         'fromRight':true, //move messages from right? if false, moves from left instead
         'fontSize':_defaultFontSize, //font size of messages in pixels
         'imageHeight':_defaultImageHeight, //max height of images in pixels
-        'displayImages':true, //show emotes/images in niconico messages
+        'displayImages':false, //show emotes/images in niconico messages
         'discardWhenFull':false,
         'opacity':70,
+        'forced':-1,
         '_fn': {
             'init':()=>{
               nnd['enabled'] = _defaultEnabled;
@@ -85,9 +86,10 @@
               nnd['fromRight'] = true;
               nnd['fontSize'] = _defaultFontSize;
               nnd['imageHeight'] = _defaultImageHeight;
-              nnd['displayImages'] = true;
+              nnd['displayImages'] = false;
               nnd['discardWhenFull'] = false;
               nnd['opacity'] = 70;
+              nnd['forced'] = 1;
               nnd._fn.updateModal();
               nnd._fn.save()
             },
@@ -111,9 +113,14 @@
                 return;
               } else {
                 for (var i in tmp) {
-                  if (nnd.hasOwnProperty(i) && !(/^\_/).test(i))
-                    nnd[i] = tmp[i];
+                  if (nnd.hasOwnProperty(i) && !(/^\_/).test(i)) {
+                    if (i === "displayImages" && (!tmp.hasOwnProperty("forced") || tmp.forced < 1)) {
+                      nnd[i] = false;
+                    } else
+                      nnd[i] = tmp[i];
+                  }
                 }
+                nnd["forced"] = 1;
                 nnd._fn.save();
                 nnd._fn.updateModal();
               }
@@ -334,7 +341,7 @@
             }
         },
         '_msgCount': 0,
-        '_ver':'1.0371'
+        '_ver':'1.0372'
     };
 
     //init: sets the window's nnd options to their defaults, then calls _fn.updateModal and _fn.save
