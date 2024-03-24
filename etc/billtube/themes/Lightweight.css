@@ -1,0 +1,22 @@
+.chat-area-header, .et-hero-tabs-container {
+	    backdrop-filter: none;
+		box-shadow: none;
+}
+.section, .well, #controlsrow, .et-hero-tabs-container {
+    background: #101010;
+}
+.chat-area-footer {
+	background-color: #0c0c0c;
+}
+#chatwrap {
+    background: #131313;
+}
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    background: #060606;
+}
+.horiz-scroll .scroller .scroll-images img {
+	-webkit-filter: none;
+    filter: none;
+	    -webkit-transition: all 0ms;
+    transition: all 0ms;
+}

@@ -1,0 +1,75 @@
+@import url(//fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600&display=swap);
+
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.42857143;
+	color: var(--msg-message);
+    background-color: var(--body-bg-color);
+    transition:all .3s ease-in-out 0s;
+		}
+#chatheader, #videowrap-header {
+border: 0px solid #cccccc;
+font-size: 2.5rem;}
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    position: relative;
+    min-height: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+#videowrap {
+    padding: 0;
+}
+.well {
+    background-color: #0404048f;
+    border: 0px solid #0c0d0e;
+}
+#currenttitle {
+    font-size: 2rem;
+    color: #999999a3;
+}
+
+.video-js .vjs-control-bar {
+	background-color:rgba(8, 8, 8, 0.56);
+}
+#videowrap, #playlistrow, .well {
+    display: block;
+}
+.channel-emote {
+    max-width: 100px;
+    max-height: 90px;
+    display: inline-block;
+    border-radius: 8px;
+    transform: scale(0.7);
+    box-shadow: 0 20px 25px -20px #131313d1;
+	   -webkit-transition: all 1s ease-out;
+   -moz-transition: all 1s ease-out;
+   -o-transition: all 1s ease-out;
+   -ms-transition: all 1s ease-out;
+   transition: all 1s ease-out;
+}
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+	background: black;
+}
+.row {
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+#userlist, #messagebuffer {
+    border: 1px solid #1a1a1a;
+}
+#userlist {
+    float:right;
+}
+#chatheader .label {
+    height: 100%;
+    margin-left: 2px;
+    font-size: 1.1rem!important;
+}
+#usercount {
+    white-space: nowrap;
+    flex-grow: 2;
+    font-size: 1.4rem!important;
+    padding-left: 15px!important;
+}
