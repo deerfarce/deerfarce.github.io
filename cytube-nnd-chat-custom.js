@@ -1,9 +1,13 @@
 /*
 - Niconico Chat script for cytu.be
 - original repo: https://github.com/deerfarce/cytube-nnd-chat
-- version 1.0372
+- version 1.0373
 - (still in testing, some things will NOT work as they should)
 */
+
+function offsetRight(parent, el) {
+  return parent.offsetWidth - el.offsetWidth - el.offsetLeft;
+}
 
 (function() {
 
@@ -21,10 +25,6 @@
       }).appendTo('head');
     }
 
-    function offsetRight(parent, el) {
-      return parent.offsetWidth - el.offsetWidth - el.offsetLeft;
-    }
-
     //remove previous NND CSS elements if they exist
     $('.head-NNDCSS').remove();
     $('.head-NNDCSS-opacity').remove();
@@ -40,6 +40,7 @@
             ".videoText.greentext {color: #789922}"+
             ".videoText img, .videochatContainer .channel-emote {box-shadow: none!important; vertical-align: middle!important;display: inline-block!important;transition: none!important;}"+
             ".videoText.shout {color: #f00}"+
+            ".videochatContainer {z-index: 11}"+
             ".modal .left-warning {float: left;padding: 10px 12px;font-size: 13px;color: #ff8f8f}"+
             ".modal .modal-caption {font-size: 13px;text-indent: 35px;color: #8f9cad}"+
             "#nndSettingsWrap .radio label {display: block;color: #c4ccd8}"+
@@ -268,7 +269,7 @@
               if (typeof window.nnd === "undefined") return;
               var opts = window.nnd;
               var container = document.getElementsByClassName("videochatContainer");
-              var player = document.getElementById("ytapiplayer");
+              var player = document.getElementById("videowrap");
               if (container.length <= 0 || !player) return;
               container = container[0];
               if (opts.MAX < 1 || isNaN(parseInt(opts.MAX))) opts.MAX = window.nnd.MAX = 125;
@@ -341,7 +342,7 @@
             }
         },
         '_msgCount': 0,
-        '_ver':'1.0372'
+        '_ver':'1.0373'
     };
 
     //init: sets the window's nnd options to their defaults, then calls _fn.updateModal and _fn.save
