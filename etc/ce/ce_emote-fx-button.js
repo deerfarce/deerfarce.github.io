@@ -3,6 +3,9 @@
 function showEmoteFxModal() {
   let fxmodal = createModal({title:"Emote Effects", wrap_id:"chat_fx_list"})
   $(fxmodal).find(".modal-body").html(`
+    <div>To use effects, type the name of the effect (CASE SENSITIVE!) followed by an emote, like so: <code>fxGlow CIAstand</code><br>
+    Some effects cannot be combined.</div>
+    <br>
     <ul>
       <li>
         <code>fxSpin</code> - makes emotes spin around.
@@ -32,7 +35,7 @@ function showEmoteFxModal() {
         <code>fxGreen</code> - makes emotes green.
       </li>
       <li>
-        <code>fxDespair</code> - D E S P A I R
+        <code>fxDespair</code> - D E S P A I R (black and white, very high contrast)
       </li>
       <li>
         <code>fxPov</code> - gives emotes a perspective effect.
@@ -44,7 +47,7 @@ function showEmoteFxModal() {
         <code>fxShake</code> - causes emotes to shake.
       </li>
       <li>
-        <code>fxShake2</code> - causes emotes to shake.
+        <code>fxShake2</code> - causes emotes to shake differently.
       </li>
       <li>
         <code>fxShake3</code> - causes emotes to shake violently.
