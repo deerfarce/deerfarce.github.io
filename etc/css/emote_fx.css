@@ -247,8 +247,8 @@
 }
 
 [title="fxBounce"] ~ .channel-emote {
-  animation: bounce 1s ease-in-out infinite;
-  transform-origin: center bottom;
+  animation: bounce 1s ease-in-out infinite;
+  transform-origin: center bottom;
 }
 
 [title="fxGlow"] ~ .channel-emote {
