@@ -51,7 +51,7 @@ function showEmoteFxModal() {
           <code>fxFall</code> - makes emotes slowly spin and shrink, as if they're falling.
         </li>
         <li>
-          <code>fxNod</code> - <i>*nods respectfully towards you*<i>
+          <code>fxNod</code> - <i>*nods respectfully towards you*</i>
         </li>
         <li>
           <code>fx3dspin</code> - makes emotes rotate around in 3d, kinda like rare's logo.
