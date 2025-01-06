@@ -39,7 +39,7 @@ function showEmoteFxModal() {
           <code>fxJam</code> - gives emotes a jam animation effect.
         </li>
         <li>
-          <code>fxJam</code> - gives emotes a different jam animation effect.
+          <code>fxJam2</code> - gives emotes a different jam animation effect.
         </li>
         <li>
           <code>fxFadeout</code> - causes emotes to slowly fade out.
@@ -51,7 +51,7 @@ function showEmoteFxModal() {
           <code>fxFall</code> - makes emotes slowly spin and shrink, as if they're falling.
         </li>
         <li>
-          <code>fxNod</code> - *nods respectfully towards you*
+          <code>fxNod</code> - <i>*nods respectfully towards you*<i>
         </li>
         <li>
           <code>fx3dspin</code> - makes emotes rotate around in 3d, kinda like rare's logo.
