@@ -467,6 +467,10 @@
   white-space: normal;
 }
 
+[class*="chat-msg"]:not(.drink):not(.consecutive) {
+  overflow: hidden;
+}
+
 [title^="ov"]:not(:last-child),
 [class^="chat-msg-"] img[src*="base64"] {
   position: absolute;
