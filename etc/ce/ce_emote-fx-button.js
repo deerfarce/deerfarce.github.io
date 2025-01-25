@@ -45,7 +45,13 @@ function showEmoteFxModal() {
           <code>fxFadeout</code> - causes emotes to slowly fade out.
         </li>
         <li>
-          <code>fxHop</code> - makes emotes hop around.
+          <code>fxHop</code> - makes emotes hop in place.
+        </li>
+        <li>
+          <code>fxHop2</code> - makes emotes hop left to right.
+        </li>
+        <li>
+          <code>fxHop3</code> - makes emotes rapidly hop left to right.
         </li>
         <li>
           <code>fxFall</code> - makes emotes slowly spin and shrink, as if they're falling.
@@ -55,6 +61,18 @@ function showEmoteFxModal() {
         </li>
         <li>
           <code>fx3dspin</code> - makes emotes rotate around in 3d, kinda like rare's logo.
+        </li>
+        <li>
+          <code>fxSwing</code> - makes emotes swing left to right.
+        </li>
+        <li>
+          <code>fxSwing2</code> - makes emotes swing up and down.
+        </li>
+        <li>
+          <code>fxLeave</code> - flips emotes, and makes them walk away.
+        </li>
+        <li>
+          <code>fxArrive</code> - fxLeave, but in reverse.
         </li>
       </ul>
       

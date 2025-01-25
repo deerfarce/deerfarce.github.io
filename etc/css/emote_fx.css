@@ -12,13 +12,8 @@
 }
 
 @keyframes shrink {
-  0%,
-  30% {
-    transform: scale(1);
-  } /* Stays at full size for half the time */
-  100% {
-    transform: scale(0);
-  }
+    0% { transform: scale(1); }
+    90%, 100% { transform: scale(0); }
 }
 
 @keyframes bounce {
@@ -34,13 +29,8 @@
 }
 
 @keyframes pop {
-  0%,
-  30% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+    0%, 10% { transform: scale(0); }
+    100% { transform: scale(1); }
 }
 
 @keyframes rainbow {
@@ -247,14 +237,20 @@
 
 @keyframes bounce2 {
     0% {
-        transform: rotate(-5deg) scaleY(0.6) scaleX(1.2);
+        transform: rotate(-8deg) scaleY(0.6) scaleX(1.2);
+    }
+    25% {
+        transform: rotate(-3deg) scaleY(1) scaleX(1);
     }
     50% {
-        transform: rotate(0deg) scaleY(1) scaleX(1);
+        transform: rotate(0deg) scaleY(0.6) scaleX(1.2);
+    }
+    75% {
+        transform: rotate(3deg) scaleY(1) scaleX(1);
     }
     100% {
-        transform: rotate(5deg) scaleY(0.6) scaleX(1.2);
-    }  
+        transform: rotate(8deg) scaleY(0.6) scaleX(1.2);
+    }   
 }
 
 @keyframes fall {
@@ -343,6 +339,187 @@
     }
 }
 
+@keyframes swing {
+    0% {
+        transform: rotate(-20deg);
+    }
+    50% {
+        transform: rotate(20deg);
+    }
+    100% {
+        transform: rotate(-20deg);
+    }
+}
+
+@keyframes hop2 {
+    0% {
+        transform: scale(0.7, 0.5) translate(25%, 0) rotate(5deg);
+    }
+    10% {
+        transform: scale(0.65, 0.55) translate(20%, -15%) rotate(3deg);
+    }
+    20% {
+        transform: scale(0.5, 0.6) translate(15%, -35%) rotate(2deg);
+    }
+    30% {
+        transform: scale(0.55, 0.6) translate(10%, -45%) rotate(-1deg);
+    }
+    40% {
+        transform: scale(0.6, 0.6) translate(5%, -48%) rotate(1deg);
+    }
+    50% {
+        transform: scale(0.6, 0.6) translate(0, -50%) rotate(-2deg);
+    }
+    60% {
+        transform: scale(0.6, 0.6) translate(-5%, -48%) rotate(0deg);
+    }
+    70% {
+        transform: scale(0.55, 0.6) translate(-10%, -45%) rotate(-3deg);
+    }
+    80% {
+        transform: scale(0.6, 0.6) translate(-15%, -35%) rotate(-5deg);
+    }
+    90% {
+        transform: scale(0.65, 0.55) translate(-20%, -15%) rotate(-6deg);
+    }
+    100% {
+        transform: scale(0.7, 0.5) translate(-25%, 0) rotate(-9deg);
+    }      
+}
+
+@keyframes hop3 {
+    0% {
+        transform: scale(0.8, 0.4) translateY(0);
+    }
+    5% {
+        transform: scale(0.75, 0.45) translateY(-5%);
+    }
+    15% {
+        transform: scale(0.65, 0.55) translateY(-20%);
+    }
+    25% {
+        transform: scale(0.55, 0.62) translateY(-45%);
+    }
+    35% {
+        transform: scale(0.6, 0.6) translateY(-60%);
+    }
+    50% {
+        transform: scale(0.6, 0.6) translateY(-70%);
+    }
+    65% {
+        transform: scale(0.6, 0.6) translateY(-60%);
+    }
+    75% {
+        transform: scale(0.55, 0.62) translateY(-45%);
+    }
+    85% {
+        transform: scale(0.65, 0.55) translateY(-20%);
+    }
+    95% {
+        transform: scale(0.75, 0.45) translateY(-5%);
+    }
+    100% {
+        transform: scale(0.8, 0.4) translateY(0);
+    }    
+}
+
+@keyframes swing2 {
+    0% {
+        transform: translateY(50%) scale(0.6) perspective(200px) rotate3d(1, 0, 0, 0deg);
+        transform-origin: top center;
+    }
+ 
+    100% {
+        transform: translateY(50%) scale(0.6) perspective(200px) rotate3d(1, 0, 0, 360deg);
+        transform-origin: top center;
+    }    
+}
+
+@keyframes leave {
+    0%, 20% {
+        transform: scale(1) scaleX(1);
+    }
+    20.01% {
+        transform: scaleX(-1) translateX(-100%) scale(1);   
+    }
+    22% {
+        transform: scaleX(-1) translateX(-100%) translateY(-4px) scale(0.95);
+    }
+    24% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.9);
+    }
+    26% {
+        transform: scaleX(-1) translateX(-100%) translateY(-4px) scale(0.85);
+    }
+    28% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.8);
+    }
+    30% {
+        transform: scaleX(-1) translateX(-100%) translateY(-4px) scale(0.75);
+    }
+    32% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.7);
+    }
+    34% {
+        transform: scaleX(-1) translateX(-100%) translateY(-3px) scale(0.65);
+    }
+    36% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.6);
+    }
+    38% {
+        transform: scaleX(-1) translateX(-100%) translateY(-3px) scale(0.55);
+    }
+    40% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.5);
+    }
+    42% {
+        transform: scaleX(-1) translateX(-100%) translateY(-3px) scale(0.45);
+    }
+    44% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.4);
+    }
+    46% {
+        transform: scaleX(-1) translateX(-100%) translateY(-2px) scale(0.35);
+    }
+    48% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.3);
+    }
+    50% {
+        transform: scaleX(-1) translateX(-100%) translateY(-2px) scale(0.25);
+    }
+    52% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.2);
+    }
+    54% {
+        transform: scaleX(-1) translateX(-100%) translateY(-1px) scale(0.18);
+    }
+    56% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.16);
+    }
+    58% {
+        transform: scaleX(-1) translateX(-100%) translateY(-1px) scale(0.14);
+    }
+    60% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.12);
+    }
+    62% {
+        transform: scaleX(-1) translateX(-100%) translateY(-1px) scale(0.1);
+    }
+    64% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.08);
+    }
+    66% {
+        transform: scaleX(-1) translateX(-100%) translateY(-1px) scale(0.06);
+    }
+    68% {
+        transform: scaleX(-1) translateX(-100%) translateY(0px) scale(0.04);
+    }
+    70%, 100% {
+        transform: scaleX(-1) translateX(-100%) translateY(-1px) scale(0.02);
+        visibility: hidden;
+    }
+}
+
 /* ------------------------------------------------------ */
 /*                      Effect Rules                      */
 /* ------------------------------------------------------ */
@@ -357,7 +534,7 @@
 }
 
 [title="fxPop"] ~ .channel-emote {
-  animation: pop 5s linear infinite;
+    animation: pop 7s ease-out infinite;
 }
 
 [title="fxWide"] ~ .channel-emote {
@@ -378,16 +555,17 @@
 }
 
 [title="fxPov"] ~ .channel-emote {
-  transform: perspective(50px) rotateX(45deg) translateY(-1%);
+    transform: perspective(60px) rotateX(-330deg) scale(1.5);
+    transform-origin: bottom center;
 }
 
 [title="fxShrink"] ~ .channel-emote {
-  animation: shrink 5s linear infinite;
+    animation: shrink 7s ease-in infinite;
 }
 
 [title="fxSpin"] ~ .channel-emote {
-  animation: rotate 3000ms linear infinite;
-  overflow: hidden;
+    animation: rotate 3.5s linear infinite;
+    overflow: hidden;
 }
 
 [title="fxBw"] ~ .channel-emote {
@@ -400,7 +578,7 @@
 }
 
 [title="fxBounce2"] ~ .channel-emote {
-    animation: bounce2 0.25s ease-in-out infinite alternate;
+    animation: bounce2 0.6s ease-in-out infinite alternate;
     transform-origin: center bottom;
 }
 
@@ -425,12 +603,22 @@
   animation: shake3 0.4s ease-in infinite;
 }
 
-[title="fxHop"] ~ .channel-emote {
+[title="fxHop3"] ~ .channel-emote {
     animation: hop 0.16s linear infinite alternate;
 }
 
+[title="fxHop2"] ~ .channel-emote {
+    animation: hop2 0.6s linear infinite alternate;
+    transform-origin: center bottom;
+}
+
+[title="fxHop"] ~ .channel-emote {
+    animation: hop3 0.55s linear infinite;
+    transform-origin: center bottom;
+}
+
 [title="fxFall"] ~ .channel-emote {
-    animation: fall 4s linear infinite;
+    animation: fall 6s ease-out infinite;
 }
 
 [title="fxNod"] ~ .channel-emote {
@@ -439,7 +627,7 @@
 }
 
 [title="fx3dspin"] ~ .channel-emote {
-    animation: spin3d 1.25s linear infinite;
+    animation: spin3d 1.5s linear infinite;        
 }
 
 [title="fxJam2"] ~ .channel-emote {
@@ -456,6 +644,25 @@
 
 [title="fxMexico"] ~ .channel-emote {
     filter: sepia(1) saturate(4) hue-rotate(350deg);
+}
+
+[title="fxSwing"] ~ .channel-emote {
+    animation: swing 3.5s infinite ease-in-out;
+    transform-origin: 50% -50%;
+}
+
+[title="fxSwing2"] ~ .channel-emote {
+    animation: swing2 1.5s linear infinite;
+}
+
+[title="fxLeave"] ~ .channel-emote {
+    animation: leave 4.5s ease-out infinite;
+    transform-origin: bottom left;
+}
+
+[title="fxArrive"] ~ .channel-emote {
+    animation: leave 4.5s ease-out infinite reverse;
+    transform-origin: bottom left;
 }
 
 /* ------------------------------------------------------ */
