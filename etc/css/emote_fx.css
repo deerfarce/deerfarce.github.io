@@ -17,15 +17,15 @@
 }
 
 @keyframes bounce {
-  0% {
-    transform: scaleY(0.7) scaleX(1.3); /* More squished at bottom */
-  }
-  50% {
-    transform: scaleY(1.2) scaleX(0.8); /* Higher jump, more stretched */
-  }
-  100% {
-    transform: scaleY(0.7) scaleX(1.3); /* Same as start */
-  }
+    0% {
+        transform: scale(0.85) scaleY(0.7) scaleX(1.3);
+    }
+    50% {
+        transform: scale(0.85) scaleY(1.2) scaleX(0.8);
+    }
+    100% {
+        transform: scale(0.85) scaleY(0.7) scaleX(1.3);
+    }
 }
 
 @keyframes pop {
@@ -211,16 +211,9 @@
 }
 
 @keyframes fadeOut {
-  0%,
-  10% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+    0% { opacity: 1; }
+    70% { opacity: 0; }
+    100% { opacity: 0; }
 }
 
 @keyframes hop {
@@ -530,7 +523,7 @@
 }
 
 [title="fxFadeout"] ~ .channel-emote {
-  animation: fadeOut 6s linear infinite;
+    animation: fadeOut 8s ease-out infinite;
 }
 
 [title="fxPop"] ~ .channel-emote {
@@ -573,8 +566,8 @@
 }
 
 [title="fxBounce"] ~ .channel-emote {
-  animation: bounce 1s ease-in-out infinite;
-  transform-origin: center bottom;
+    animation: bounce 1.25s ease-in-out infinite;
+    transform-origin: center bottom;
 }
 
 [title="fxBounce2"] ~ .channel-emote {
@@ -583,9 +576,15 @@
 }
 
 [title="fxGlow"] ~ .channel-emote {
-  filter: brightness(1.8) sepia(0.5) hue-rotate(70deg) saturate(2)
-    drop-shadow(0 0 15px #00ff00);
+    filter: 
+        brightness(2)
+        sepia(0.8)
+        hue-rotate(80deg)
+        saturate(3)
+        drop-shadow(0 0 20px #00ff22db)
+        drop-shadow(0 0 5px #00ff6abf);
 }
+  
 
 [title="fxRainbow"] ~ .channel-emote {
   animation: rainbow 0.2s linear infinite;
@@ -647,7 +646,7 @@
 }
 
 [title="fxSwing"] ~ .channel-emote {
-    animation: swing 3.5s infinite ease-in-out;
+    animation: swing 4s infinite ease-in-out;
     transform-origin: 50% -50%;
 }
 
