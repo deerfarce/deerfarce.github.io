@@ -681,4 +681,5 @@
 [class^="chat-msg-"] img[src*="base64"] {
   position: absolute;
   z-index: 1;
+  pointer-events: none;
 }
