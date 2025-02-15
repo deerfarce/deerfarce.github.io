@@ -114,12 +114,63 @@ function showEmoteFxModal() {
         </li>
       </ul>
       
+    <h4>Overlay Emotes (experimental)</h4>
+    These emotes take up no space, essentially acting as "overlays" - be aware that these can be pretty janky at the moment.
+    <div class="overlays">
+      <span>
+        <img src="https://cdn.7tv.app/emote/01FSNFW5R00007E5TN8YT2BJMM/2x.webp">ovGun
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01GG3004QR0003GBJS3G4T6W38/2x.webp">ovLive
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01FF4NRKKR000FF5VVCKV49JZ2/2x.webp">ovChip
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01FECNYCHG000CZZNZB30AN3SE/2x.webp">ovBoom
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01FEHA6XQR0009M56EQESKKC8K/2x.webp">ovSteer
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01FZ23Z4MR000063WVYFWX90DM/2x.webp">ovBlab
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01GCN0JF60000D8ZK13J8KVD8A/2x.webp">ovRave
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01FF8AAYPR000EJAN8SN7D20H7/2x.webp">ovNo
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01FWMJG56R0003G26ZWQ26BF2A/2x.webp">ovAlert
+      </span>
+      <span>
+        <img src="https://cdn.7tv.app/emote/01GRF0MN6R0005TJPDXZA4EMK4/2x.webp">ovSpeed
+      </span>
+    </div>
+    
 `);
   fxmodal.modal();
 }
     
     
 (function() {
+    $(".emotefx-list-css").remove();
+    
+    $("<style/>", {class:"emotefx-list-css", html:`
+
+#chat_fx_list .overlays > span {
+  display: inline-block;
+  text-align: center;
+}
+#chat_fx_list .overlays > span img {
+    display: block;
+    border: 1px solid #bdbdbd17;
+    width: 64px;
+}
+
+    `}).appendTo('head');
+  
     if ($("#chat-fx-btn").length <= 0) {
         let btn = $("<button/>", {
           class: "chatbtn",
