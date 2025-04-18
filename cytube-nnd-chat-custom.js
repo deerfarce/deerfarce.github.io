@@ -1,7 +1,6 @@
 /*
 - Niconico Chat script for cytu.be
-- original repo: https://github.com/deerfarce/cytube-nnd-chat
-- version 1.0373
+- version 1.0374
 - (still in testing, some things will NOT work as they should)
 */
 
@@ -15,55 +14,10 @@ function offsetRight(parent, el) {
         _defaultFontSize = 32,
         _defaultImageHeight = 128,
         _scrollDuration = 7;
-
-    let setFontSizeCSS = function(fontsize, imageheight) {
-      $('.head-NNDCSS-fontsize').remove();
-      $('<style />', {
-          'class':'head-NNDCSS-fontsize',
-          text:".videoText img, .videochatContainer .channel-emote {max-height: "+imageheight+"px!important;max-width: "+(imageheight*2)+"px!important;}"+
-          ".videoText {font-size: "+fontsize+"px}"
-      }).appendTo('head');
-    }
-
-    //remove previous NND CSS elements if they exist
-    $('.head-NNDCSS').remove();
-    $('.head-NNDCSS-opacity').remove();
-
-    /*create CSS for messages and modal element, this will probably become an external sheet in the future
-    - this is NOT meant to be a one-time thing, as it gets removed each time this script is run,
-    - so it can be updated without making users refresh
-    */
-    $('<style />', {
-        'class':'head-NNDCSS',
-        text:".videoText {color: white;position: absolute;z-index: 1;cursor: default;white-space:nowrap;font-family: 'Meiryo', sans-serif;letter-spacing: 0.063em;user-select: none;text-shadow: 0 -0.063em #000, 0.063em 0 #000, 0 0.063em #000, -0.063em 0 #000;pointer-events: none}"+
-            ".videoText.moving {transition: right "+_scrollDuration+"s linear, left "+_scrollDuration+"s linear}"+
-            ".videoText.greentext {color: #789922}"+
-            ".videoText img, .videochatContainer .channel-emote {box-shadow: none!important; vertical-align: middle!important;display: inline-block!important;transition: none!important;}"+
-            ".videoText.shout {color: #f00}"+
-            ".videochatContainer {z-index: 11}"+
-            ".modal .left-warning {float: left;padding: 10px 12px;font-size: 13px;color: #ff8f8f}"+
-            ".modal .modal-caption {font-size: 13px;text-indent: 35px;color: #8f9cad}"+
-            "#nndSettingsWrap .radio label {display: block;color: #c4ccd8}"+
-            "#nndSettingsWrap #nnd-maxmsgs, #nndSettingsWrap #nnd-fontsize, #nndSettingsWrap #nnd-imageheight {margin: 10px 0;width: 100px;}"+
-            ".modal-subheader {font-size: 16px;border-bottom: 1px solid #212123;margin-left: -10px;padding: 10px 0 0 2px}"+
-            "#nndSettingsModal .subfooter {text-align: center;position: absolute;right: 0;left: 0;pointer-events: none;color: #757575;bottom: 12px;display: inline-block;}"+
-            "#nndSettingsModal .subfooter > * {border-right: 1px solid rgba(0,0,0,0.48);pointer-events: none;padding: 0px 8px;border-left: 1px solid rgba(255,255,255,0.22);}"+
-            "#nndSettingsModal .subfooter a {pointer-events:all;}"+
-            "#nndSettingsModal .subfooter > *:first-child {border-left:0!important;} #nndSettingsModal .subfooter > *:last-child {border-right:0!important;}"+
-            "#nndSettingsModal .radio, #nndSettingsModal .modal-option > input {margin-left: 35px!important;}"+
-            "#nndSettingsModal .radio, #nndSettingsModal .checkbox, #nndSettingsModal .modal-option > input {margin-top: 4px!important;margin-bottom: 4px!important;}"+
-            "#nnd-opacity-value {color: #8f9cad;}"+
-            ".modal .modal-group {display: inline-block; margin-left: 35px;padding: 0 6px;border-radius: 4px;background: rgba(143, 156, 173, 0.15);}"+
-            ".modal .modal-group > * {display: inline-block;text-indent: 0!important;}"+
-            ".modal .modal-group > input {margin-left: 4px !important;}"
-    }).appendTo('head');
-
-    setFontSizeCSS(_defaultFontSize, _defaultImageHeight);
-
-    console.debug('NND Chat: CSS added to page header');
-    //on the other hand, we don't want this persistent stuff to run more than once..
+        
     if (CLIENT.runNND) {
         console.error('NND Chat script attempted to load, but it looks like it has already been loaded!');
+        nnd._fn.setupCSS();
         return;
     }
     CLIENT.runNND = true;
@@ -79,20 +33,34 @@ function offsetRight(parent, el) {
         'discardWhenFull':false,
         'opacity':70,
         'forced':-1,
+        '_reloading': false,
         '_fn': {
-            'init':()=>{
-              nnd['enabled'] = _defaultEnabled;
-              nnd['MAX'] = 125;
-              nnd['offsetType'] = 0;
-              nnd['fromRight'] = true;
-              nnd['fontSize'] = _defaultFontSize;
-              nnd['imageHeight'] = _defaultImageHeight;
-              nnd['displayImages'] = false;
-              nnd['discardWhenFull'] = false;
-              nnd['opacity'] = 70;
-              nnd['forced'] = 1;
-              nnd._fn.updateModal();
-              nnd._fn.save()
+            'reload_plugin':()=>{
+              
+              if (nnd._reloading) return;
+              
+              nnd._reloading = true;
+              
+              socket.off('chatMsg', onChatMsg);
+              nnd._fn.removeAll();
+              $('.videochatContainer').remove();
+              
+              nnd._fn.setupCSS();
+              $('.embed-responsive').prepend($('<div/>', {
+                  'class': 'videochatContainer'
+              }));
+              socket.on('chatMsg', onChatMsg);
+              console.debug('NND has been successfully reloaded');
+              
+              let classes = ["server-msg-reconnect", "server-msg-disconnect", "poll-notify", "greentext"];
+              let cls = classes[Math.floor(Math.random() * classes.length)];
+              
+              $("<div/>").addClass(cls)
+                .text((cls === "greentext" ? ">" : "") + "Restarted NND!")
+                .appendTo($("#messagebuffer"));
+              scrollChat();
+              
+              nnd._reloading = false;
             },
             'getopts':()=>{
               var tmp = {};
@@ -109,7 +77,23 @@ function offsetRight(parent, el) {
               var tmp = JSON.parse(localStorage.getItem(CHANNEL.name.toLowerCase()+'_nndOptions'));
 
               if (tmp === null || tmp === undefined) {
-                nnd._fn.init();
+                
+                nnd['enabled'] = _defaultEnabled;
+                nnd['MAX'] = 125;
+                nnd['offsetType'] = 0;
+                nnd['fromRight'] = true;
+                nnd['fontSize'] = _defaultFontSize;
+                nnd['imageHeight'] = _defaultImageHeight;
+                nnd['displayImages'] = false;
+                nnd['discardWhenFull'] = false;
+                nnd['opacity'] = 70;
+                nnd['forced'] = 1;
+
+                nnd._fn.setFontSize(_defaultFontSize, _defaultImageHeight);
+                
+                nnd._fn.updateModal();
+                nnd._fn.save()
+                
                 console.debug('NND settings not found, using defaults and saving them');
                 return;
               } else {
@@ -125,6 +109,7 @@ function offsetRight(parent, el) {
                 nnd._fn.save();
                 nnd._fn.updateModal();
               }
+              nnd._fn.setupCSS();
             },
             'updateModal':()=>{
               $('#nnd-enable').prop('checked', nnd.enabled);
@@ -140,7 +125,7 @@ function offsetRight(parent, el) {
               $('#nnd-fontsize').val(nnd.fontSize);
               $('#nnd-imageheight').attr('placeholder', nnd.imageHeight);
               $('#nnd-imageheight').val(nnd.imageHeight);
-              setFontSizeCSS(nnd.fontSize, nnd.imageHeight);
+              nnd._fn.setFontSize(nnd.fontSize, nnd.imageHeight);
             },
             'saveFromModal':()=>{
               nnd['enabled'] = $('#nnd-enable').prop('checked');
@@ -168,7 +153,7 @@ function offsetRight(parent, el) {
               nnd._fn.validateAndSetValue('fontSize', $('#nnd-fontsize'), 1, _defaultFontSize);
               nnd._fn.validateAndSetValue('imageHeight', $('#nnd-imageheight'), 1, _defaultImageHeight);
 
-              setFontSizeCSS(nnd.fontSize, nnd.imageHeight);
+              nnd._fn.setFontSize(nnd.fontSize, nnd.imageHeight);
 
               nnd._fn.save();
             },
@@ -178,6 +163,40 @@ function offsetRight(parent, el) {
                   'class':'head-NNDCSS-opacity',
                   text:".videoText {opacity:" + (nnd.opacity/100) + ";}"
               }).appendTo('head');
+            },
+            'setupCSS':()=>{
+              
+              $('.head-NNDCSS').remove();
+              $('.head-NNDCSS-opacity').remove();
+              
+              $('<style />', {
+                'class':'head-NNDCSS',
+                text:".videoText {color: white;position: absolute;z-index: 1;cursor: default;white-space:nowrap;font-family: 'Meiryo', sans-serif;letter-spacing: 0.063em;user-select: none;text-shadow: 0 -0.063em #000, 0.063em 0 #000, 0 0.063em #000, -0.063em 0 #000;pointer-events: none}"+
+                    ".videoText.moving {transition: right "+_scrollDuration+"s linear, left "+_scrollDuration+"s linear}"+
+                    ".videoText.greentext {color: #789922}"+
+                    ".videoText img, .videochatContainer .channel-emote {box-shadow: none!important; vertical-align: middle!important;display: inline-block!important;transition: none!important;}"+
+                    ".videoText.shout {color: #f00}"+
+                    ".videochatContainer {z-index: 11}"+
+                    ".modal .left-warning {float: left;padding: 10px 12px;font-size: 13px;color: #ff8f8f}"+
+                    ".modal .modal-caption {font-size: 13px;text-indent: 35px;color: #8f9cad}"+
+                    "#nndSettingsWrap .radio label {display: block;color: #c4ccd8}"+
+                    "#nndSettingsWrap #nnd-maxmsgs, #nndSettingsWrap #nnd-fontsize, #nndSettingsWrap #nnd-imageheight {margin: 10px 0;width: 100px;}"+
+                    ".modal-subheader {font-size: 16px;border-bottom: 1px solid #212123;margin-left: -10px;padding: 10px 0 0 2px}"+
+                    "#nndSettingsModal .subfooter {text-align: center;position: absolute;right: 0;left: 0;pointer-events: none;color: #757575;bottom: 12px;display: inline-block;}"+
+                    "#nndSettingsModal .subfooter > * {border-right: 1px solid rgba(0,0,0,0.48);pointer-events: none;padding: 0px 8px;border-left: 1px solid rgba(255,255,255,0.22);}"+
+                    "#nndSettingsModal .subfooter a {pointer-events:all;}"+
+                    "#nndSettingsModal .subfooter > *:first-child {border-left:0!important;} #nndSettingsModal .subfooter > *:last-child {border-right:0!important;}"+
+                    "#nndSettingsModal .radio, #nndSettingsModal .modal-option > input {margin-left: 35px!important;}"+
+                    "#nndSettingsModal .radio, #nndSettingsModal .checkbox, #nndSettingsModal .modal-option > input {margin-top: 4px!important;margin-bottom: 4px!important;}"+
+                    "#nnd-opacity-value {color: #8f9cad;}"+
+                    ".modal .modal-group {display: inline-block; margin-left: 35px;padding: 0 6px;border-radius: 4px;background: rgba(143, 156, 173, 0.15);}"+
+                    ".modal .modal-group > * {display: inline-block;text-indent: 0!important;}"+
+                    ".modal .modal-group > input {margin-left: 4px !important;}"
+              }).appendTo('head');
+              
+              nnd._fn.setOpacity();
+              
+              console.debug('NND Chat: CSS added to page header');
             },
             'placeMessage':(frm, player, container, el)=>{
               container.appendChild(el);
@@ -336,29 +355,50 @@ function offsetRight(parent, el) {
               modalEl.attr('placeholder', nnd[valName]);
               modalEl.val(nnd[valName]);
             },
+            'setFontSize':(fontsize, imageheight)=>{
+              $('.head-NNDCSS-fontsize').remove();
+              $('<style />', {
+                  'class':'head-NNDCSS-fontsize',
+                  text:".videoText img, .videochatContainer .channel-emote {max-height: "+imageheight+"px!important;max-width: "+(imageheight*2)+"px!important;}"+
+                  ".videoText {font-size: "+fontsize+"px}"
+              }).appendTo('head');
+            },
             'removeAll':()=>{
               $('.videoText').remove();
               nnd._msgCount = 0;
             }
         },
         '_msgCount': 0,
-        '_ver':'1.0373'
+        '_ver':'1.0374'
+    };
+    
+    //ignore messages sent by [server], [voteskip] and anything within CHANNEL.bots if defined
+    let onChatMsg = function(data) {
+        if (IGNORED.indexOf(data.username) > -1) return;
+        if (window.nnd.enabled &&
+            ((data.meta && !data.meta.action) || !data.meta) &&
+            data.time >= Date.now() - 2000 &&
+            data.username.toLowerCase() !== '[server]' &&
+            data.username.toLowerCase() !== '[voteskip]' &&
+            (!CHANNEL.hasOwnProperty("bots") || (Array.isArray(CHANNEL.bots) && !~CHANNEL.bots.indexOf(data.username)))) {
+            if (!data.meta['addClass'])
+                data.meta['addClass'] = '';
+            window.nnd._fn.addScrollingMessage(data.msg, data.meta.addClass);
+        }
     };
 
-    //init: sets the window's nnd options to their defaults, then calls _fn.updateModal and _fn.save
     //getopts: returns the window's current nnd object excluding any of its keys beginning with "_"
     //save: stores the return value of getopts as a JSON string in localStorage, in an item named "X_nndOptions" where X is CHANNEL.name
-    //load: attempts to grab [CHANNEL.name]_nndOptions from localStorage and replaces the current window's nnd options with them. finally, calls _fn.save then _fn.updateModal. only replaces properties that are found within the current nnd object, excludes keys beginning with "_". calls _fn.init if the localStorage settings are empty or null.
+    //load: attempts to grab [CHANNEL.name]_nndOptions from localStorage and replaces the current window's nnd options with them. finally, calls _fn.save then _fn.updateModal. only replaces properties that are found within the current nnd object, excludes keys beginning with "_". initializes settings if the localStorage settings are empty or null.
     //updateModal: updates the modal window elements to reflect the current nnd options.
     //saveFromModal: sets the current window's nnd object properties based on the options selected in the modal window, and calls _fn.save
 
     //create modal element, insert before #pmbar
-    $('<div class="fade modal"id=nndSettingsModal aria-hidden=true role=dialog style=display:none tabindex=-1><div class=modal-dialog><div class=modal-content><div class=modal-header><button class=close data-dismiss=modal aria-hidden=true>×</button><h4>Niconico Chat Settings [<span id=modal-nnd-roomname>'+CHANNEL.name+'</span>]</h4></div><div class=modal-body id=nndSettingsWrap><div class=modal-option><div class=checkbox><label for=nnd-enable><input id=nnd-enable type=checkbox> Enable Niconico Chat</label><div class=modal-caption>Enable Niconico-style chat messages. Places chat messages on the currently playing video and scrolls them to the opposite side.</div></div></div><div class=modal-option><div class=checkbox><label for=nnd-displayimages><input id=nnd-displayimages type=checkbox> Display Images and Emotes</label><div class=modal-caption>Show images in Niconico messages.</div></div></div><div class="modal-option"><div class="checkbox"><label for="nnd-discardwhenfull"><input id="nnd-discardwhenfull" type="checkbox"> Discard New Messages When Full</label><div class="modal-caption">If checked, new messages will be ignored if there\'s no room for them. Otherwise, when there\'s no room, it will essentially be placed on a random line regardless of overlaps.</div></div></div><div class="modal-option"><div class="slider"><label for="nnd-opacity"> Opacity <span id="nnd-opacity-value">70%</span><input id="nnd-opacity" min="0" max="100" type="range"></label><div class="modal-caption">Controls transparency of messages. Default 70%.</div></div></div><div class=modal-option><div class=modal-subheader> Message Order</div><div class=modal-caption>Determines the order in which new messages are placed, as long as there is enough room.</div><div class=radio><label for=nnd-offsettype-0><input id=nnd-offsettype-0 type=radio name=offsettype> Random </label><br><label for=nnd-offsettype-1><input id=nnd-offsettype-1 type=radio name=offsettype> Top to Bottom </label></div></div><div class=modal-option><div class=modal-subheader>Message Direction</div><div class=modal-caption>Determines where new messages will start and end.</div><div class=radio><label for=nnd-fromright-true><input id=nnd-fromright-true type=radio name=fromright> from Right to Left</label><br><label for=nnd-fromright-false><input id=nnd-fromright-false type=radio name=fromright> from Left to Right</label></div></div><div class=modal-option><div class=modal-subheader>Maximum Messages</div><div class=modal-caption>Maximum amount of messages allowed on screen at once. New messages will be ignored if this many are on screen. A large amount of messages may cause lag. Default 125.</div><input id=nnd-maxmsgs type=text class=form-control placeholder=125></div><div class="modal-option"><div class="modal-subheader">Message Size</div><div class="modal-caption">Sizes of all text and images in Niconico messages. Max image width is always twice the max image height. If you want to avoid vertical image overlap, make sure Max Image Height is the same as or less than Font Size.</div><div class="modal-group"><div class="modal-caption">Font Size (px, default '+_defaultFontSize+') </div><input id="nnd-fontsize" type="text" class="form-control" placeholder="'+_defaultFontSize+'"></div><div class="modal-group"><div class="modal-caption">Max Image Height (px, default '+_defaultImageHeight+')</div><input id="nnd-imageheight" type="text" class="form-control" placeholder="'+_defaultImageHeight+'"></div></div></div><div class=modal-footer><div class=left-warning>Settings are not applied until you click Save.</div><button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.saveFromModal()>Save</button> <button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.updateModal()>Close</button><div class="subfooter"><span class="by">made by biggles-</span><a href="https://github.com/deerfarce/cytube-nnd-chat" target="_blank" rel="noreferrer noopener">github</a><span class="ver">version '+nnd._ver+'</span></div></div></div></div></div>').insertBefore('#pmbar');
+    $('<div class="fade modal"id=nndSettingsModal aria-hidden=true role=dialog style=display:none tabindex=-1><div class=modal-dialog><div class=modal-content><div class=modal-header><button class=close data-dismiss=modal aria-hidden=true>×</button><h4>Niconico Chat Settings [<span id=modal-nnd-roomname>'+CHANNEL.name+'</span>]</h4></div><div class=modal-body id=nndSettingsWrap><div class=modal-option><div class=checkbox><label for=nnd-enable><input id=nnd-enable type=checkbox> Enable Niconico Chat</label><div class=modal-caption>Enable Niconico-style chat messages. Places chat messages on the currently playing video and scrolls them to the opposite side.</div></div></div><div class=modal-option><div class=checkbox><label for=nnd-displayimages><input id=nnd-displayimages type=checkbox> Display Images and Emotes</label><div class=modal-caption>Show images in Niconico messages.</div></div></div><div class="modal-option"><div class="checkbox"><label for="nnd-discardwhenfull"><input id="nnd-discardwhenfull" type="checkbox"> Discard New Messages When Full</label><div class="modal-caption">If checked, new messages will be ignored if there\'s no room for them. Otherwise, when there\'s no room, it will essentially be placed on a random line regardless of overlaps.</div></div></div><div class="modal-option"><div class="slider"><label for="nnd-opacity"> Opacity <span id="nnd-opacity-value">70%</span><input id="nnd-opacity" min="0" max="100" type="range"></label><div class="modal-caption">Controls transparency of messages. Default 70%.</div></div></div><div class=modal-option><div class=modal-subheader> Message Order</div><div class=modal-caption>Determines the order in which new messages are placed, as long as there is enough room.</div><div class=radio><label for=nnd-offsettype-0><input id=nnd-offsettype-0 type=radio name=offsettype> Random </label><br><label for=nnd-offsettype-1><input id=nnd-offsettype-1 type=radio name=offsettype> Top to Bottom </label></div></div><div class=modal-option><div class=modal-subheader>Message Direction</div><div class=modal-caption>Determines where new messages will start and end.</div><div class=radio><label for=nnd-fromright-true><input id=nnd-fromright-true type=radio name=fromright> from Right to Left</label><br><label for=nnd-fromright-false><input id=nnd-fromright-false type=radio name=fromright> from Left to Right</label></div></div><div class=modal-option><div class=modal-subheader>Maximum Messages</div><div class=modal-caption>Maximum amount of messages allowed on screen at once. New messages will be ignored if this many are on screen. A large amount of messages may cause lag. Default 125.</div><input id=nnd-maxmsgs type=text class=form-control placeholder=125></div><div class="modal-option"><div class="modal-subheader">Message Size</div><div class="modal-caption">Sizes of all text and images in Niconico messages. Max image width is always twice the max image height. If you want to avoid vertical image overlap, make sure Max Image Height is the same as or less than Font Size.</div><div class="modal-group"><div class="modal-caption">Font Size (px, default '+_defaultFontSize+') </div><input id="nnd-fontsize" type="text" class="form-control" placeholder="'+_defaultFontSize+'"></div><div class="modal-group"><div class="modal-caption">Max Image Height (px, default '+_defaultImageHeight+')</div><input id="nnd-imageheight" type="text" class="form-control" placeholder="'+_defaultImageHeight+'"></div></div></div><div class=modal-footer><div class=left-warning>Settings are not applied until you click Save.</div><button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.saveFromModal()>Save</button> <button class="btn btn-primary"data-dismiss=modal type=button onclick=nnd._fn.updateModal()>Close</button><div class="subfooter"><span class="by">made by biggles-</span><a href="https://github.com/deerfarce/deerfarce.github.io/blob/main/cytube-nnd-chat-custom.js" target="_blank" rel="noreferrer noopener">github</a><span class="ver">version '+nnd._ver+'</span></div></div></div></div></div>').insertBefore('#pmbar');
 
     //load the user's options then update the modal element
     nnd._fn.load();
     nnd._fn.updateModal();
-    nnd._fn.setOpacity();
 
     $('#nnd-opacity').on("change", function(e) {
         $('#nnd-opacity-value').text(e.target.value + "%")
@@ -368,6 +408,7 @@ function offsetRight(parent, el) {
     if ($("#toggleNND").length <= 0) {
       if (window.cytubeEnhanced) {
         $('<li/>').append($('<a/>',{href:'#',id:'toggleNND',text:'NND settings',click:(t)=>{t.preventDefault();t.stopPropagation();$('#nndSettingsModal').modal();}})).insertAfter($("#" + window.cytubeEnhanced.prefix + "ui").parent());
+        $('<li/>').append($('<a/>',{href:'#',id:'reloadNND',text:'Reload NND',  click:(t)=>{t.preventDefault();t.stopPropagation();nnd._fn.reload_plugin(); t.target.blur();}})).insertAfter($("#" + window.cytubeEnhanced.prefix + "ui").parent());
       } else {
         $('#leftcontrols').append($('<button/>',{id:'toggleNND','class':'btn btn-default btn-sm',html:'<span class="glyphicon glyphicon-cog"></span> NND Chat Settings',click:()=>$('#nndSettingsModal').modal()}));
       }
@@ -380,20 +421,7 @@ function offsetRight(parent, el) {
     }));
 
     //attach addScrollingMessage to the chatMsg socket event
-    //ignore messages sent by [server], [voteskip] and anything within CHANNEL.bots if defined
-    socket.on('chatMsg', function(data) {
-        if (IGNORED.indexOf(data.username) > -1) return;
-        if (window.nnd.enabled &&
-            ((data.meta && !data.meta.action) || !data.meta) &&
-            data.time >= Date.now() - 2000 &&
-            data.username.toLowerCase() !== '[server]' &&
-            data.username.toLowerCase() !== '[voteskip]' &&
-            (!CHANNEL.hasOwnProperty("bots") || (Array.isArray(CHANNEL.bots) && !~CHANNEL.bots.indexOf(data.username)))) {
-            if (!data.meta['addClass'])
-                data.meta['addClass'] = '';
-            window.nnd._fn.addScrollingMessage(data.msg, data.meta.addClass);
-        }
-    });
+    socket.on('chatMsg', onChatMsg);
 
     //save user's settings on page unload so they are persistent
     $(window).unload(function() {window.nnd._fn.save()});
@@ -413,6 +441,6 @@ function offsetRight(parent, el) {
       }
     }, 2500);
 
-    console.log('LOADED: Niconico chat script for cytu.be [https://github.com/deerfarce/cytube-nnd-chat]. Version '+nnd._ver);
+    console.log('LOADED: Niconico chat script for cytu.be [https://github.com/deerfarce/deerfarce.github.io/blob/main/cytube-nnd-chat-custom.js]. Version '+nnd._ver);
 
 })();
