@@ -12,9 +12,9 @@ window.execEmotesEfficient = function(e){
     e=e.replace(t.regex, function(match, cont) {
       if (/^(fx|ov)[A-Z0-9]/.test(t.name)) {
         if (window["DISABLE_EMOTE_FX"]) return '';
-        return (d++>=window["FXPERLINE"] ? '' : (cont+'<img class="channel-emote" src="'+t.image+'" title="'+t.name+'">'))
+        return (d++>=window["FXPERLINE"] ? '' : (cont+emoteToImg(t).outerHTML))
       }
-      return (c++>=window["EMOTESPERLINE"] ? '' : (cont+'<img class="channel-emote" src="'+t.image+'" title="'+t.name+'">'))
+      return (c++>=window["EMOTESPERLINE"] ? '' : (cont+emoteToImg(t).outerHTML))
     })
   }),
   e=e.replace(/[^\s]+/gi,function(e){
@@ -22,9 +22,9 @@ window.execEmotesEfficient = function(e){
       var t=CHANNEL.emoteMap[e];
       if (/^(fx|ov)[A-Z0-9]/.test(t.name)) {
         if (window["DISABLE_EMOTE_FX"]) return '';
-        return (d++>=window["FXPERLINE"] ? '' : '<img class="channel-emote" src="'+t.image+'" title="'+t.name+'">');
+        return (d++>=window["FXPERLINE"] ? '' : emoteToImg(t).outerHTML);
       }
-      return (c++>=window["EMOTESPERLINE"] ? '' : '<img class="channel-emote" src="'+t.image+'" title="'+t.name+'">');
+      return (c++>=window["EMOTESPERLINE"] ? '' : emoteToImg(t).outerHTML);
     }
     return e
   })
@@ -39,9 +39,9 @@ window.execEmotes = function(e){
         e=e.replace(t.regex, function(match, cont) {
           if (/^(fx|ov)[A-Z0-9]/.test(t.name)) {
             if (window["DISABLE_EMOTE_FX"]) return '';
-            return (d++>=window["FXPERLINE"] ? '' : (cont+'<img class="channel-emote" src="'+t.image+'" title="'+t.name+'">'))
+            return (d++>=window["FXPERLINE"] ? '' : (cont+emoteToImg(t).outerHTML))
           }
-          return (c++>=window["EMOTESPERLINE"] ? '' : (cont+'<img class="channel-emote" src="'+t.image+'" title="'+t.name+'">'))
+          return (c++>=window["EMOTESPERLINE"] ? '' : (cont+emoteToImg(t).outerHTML))
         })
       }) ,e)
 }
