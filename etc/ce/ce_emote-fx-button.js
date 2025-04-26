@@ -157,7 +157,7 @@ function showEmoteFxModal() {
 (function() {
     $(".emotefx-list-css").remove();
     
-    $("<style/>", {class:"emotefx-list-css", html:`
+    $("<style/>", {class:"emotefx-list-css", text:`
 
 #chat_fx_list .overlays > span {
   display: inline-block;
